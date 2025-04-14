@@ -1,5 +1,4 @@
 .env
 !.env.example
-secrets
-!secrets.example
 .venv
+.streamlit/secrets.toml
