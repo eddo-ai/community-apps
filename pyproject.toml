@@ -1,12 +1,14 @@
 [project]
-name = "streamlit-app"
+name = "community_apps"
 version = "0.1.0"
-description = "Add your description here"
+description = "Community apps for Streamlit"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "streamlit>=1.44.1",
     "authlib>=1.5.2",
+    "langchain>=0.3.23",
+    "langchain-openai>=0.3.12",
 ]
 
 [build-system]
