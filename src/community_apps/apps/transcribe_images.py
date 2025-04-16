@@ -7,7 +7,6 @@ import pandas as pd
 from datetime import datetime
 import os
 import logging
-import httpx
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)

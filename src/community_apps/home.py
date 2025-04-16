@@ -1,9 +1,18 @@
 import streamlit as st
 
-st.title("Welcome to Community Apps! 🚀")
+st.title("Welcome to the community apps showcase! 🚀")
+st.caption("Apps for teachers, coaches, and instructional leaders, co-created by educators and the Eddo Learning team.")
 
-st.write("This is the home page of the Community Apps. Here you can find all the apps that are available to you.")
+# if not st.experimental_user.is_logged_in:
+#     st.button("Log in", on_click=st.login)
 
-if not st.experimental_user.is_logged_in:
-    st.button("Log in", on_click=st.login)
-
+with st.container(border=True):
+    st.header("Student Work Analysis")
+    col1, col2 = st.columns([1, 3])
+    with col1:
+        st.image("images/20250416_1300_Student Work Analysis Cover_remix_01js02x7zhftb8h81bt9f068nb.png")
+    with col2:
+        st.write("Analyze student work with AI-powered insights and feedback.")
+        st.write("This app allows you to upload student responses and get instant summaries and insights across the dataset.")
+        st.write("A collaboration with the Wauwatosa School District science team.")
+        st.page_link("apps/analyze_student_work.py", label="Try it out", icon=":material/open_in_new:")
