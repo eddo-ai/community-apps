@@ -11,8 +11,7 @@ st.set_page_config(
 # Import pages
 home_page = st.Page("home.py", title="Home", icon="🏠", default=True)
 apps = [
-    st.Page("apps/transcribe_images.py", title="Transcribe Images", icon="📸"),
-    st.Page("apps/assessment_feedback.py", title="Assessment Feedback", icon="📝"),
+    st.Page("apps/generate_feedback_demo.py", title="Demo: Generate Feedback", icon="📝"),
 ]
 
 

@@ -2,3 +2,4 @@
 !.env.example
 .venv
 .streamlit/secrets.toml
+.streamlit/secrets.onepassword
