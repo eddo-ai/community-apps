@@ -137,80 +137,6 @@ async def generate_feedback(student_response, instructions):
         return None
 
 
-# Instructions setup section
-st.header("1. Instructions and Assessment Criteria")
-
-# Display the instructions in a container
-with st.expander("Instructions", expanded=True):
-    st.markdown(DEFAULT_INSTRUCTIONS)
-
-# Store instructions in session state
-st.session_state.instructions = DEFAULT_INSTRUCTIONS
-
-# Process responses section
-if not st.session_state.get("instructions"):
-    st.stop()
-else:
-    st.header("2. Student Work Samples")
-
-    # Load default data
-    default_data_path = os.path.join("data", "feedback-sample.csv")
-    try:
-        df = pd.read_csv(default_data_path)
-
-        # Add data preview
-        with st.expander("Sample Student Responses", expanded=True):
-            st.dataframe(df, hide_index=True)
-
-    except Exception as e:
-        st.error(f"Error loading default data: {str(e)}")
-        st.stop()
-
-    if df is not None:
-        st.header("3. Analyze Student Work Samples")
-DISCUSSION_GUIDE_PROMPT = """
-The provided dataset includes responses to two prompts about "zombie fires" and their environmental implications. Each entry contains student responses, assigned scores, feedback for improvement, and noted strengths. Here's a summary of the analysis:
-
-### Observations and Patterns:
-1. **Prompt A: How Zombie Fires Burn Under Ice**
-   - Common strengths:
-     - Clear explanations of the role of peat formation and arctic conditions in sustaining fires.
-     - Some responses effectively link past arctic conditions with current phenomena.
-   - Common areas for improvement:
-     - A need for better organization and clarity in responses.
-     - Inclusion of more specific details or scientific concepts.
-
-2. **Prompt B: Impact of Rising Temperatures**
-   - Common strengths:
-     - Use of predictive reasoning about environmental changes.
-     - Some students integrated zombie fires into their explanations effectively.
-   - Common areas for improvement:
-     - Responses often lack specific details or strong connections to the provided data.
-     - Some responses need better logical flow or deeper analysis.
-
-3. **Scoring Trends:**
-   - Scores range from 0 to 4, with higher-scoring responses being more detailed and well-structured.
-   - Lower scores frequently correlate with disorganized responses or incomplete reasoning.
-
-### Recommendations for Improvement:
-- Encourage students to:
-  - Use the provided sentence starters to structure their responses.
-  - Integrate specific evidence or examples to support claims.
-  - Clearly articulate the connection between cause and effect in their explanations.
-
-- Provide examples of high-scoring responses to illustrate expectations.
-- Focus on scaffolding support for lower-performing students, particularly on organizing ideas and incorporating details.
-
-This analysis highlights areas where students excel and where additional guidance can elevate their performance. Let me know if you'd like further breakdowns or visualizations of the data!
-"""
-DISCUSSION_GUIDE_URL = "https://chatgpt.com/share/68000e9d-12e0-8012-980f-97696ecded35"
-with st.expander("Discussion Guide Prompt", expanded=False):
-    st.markdown(DISCUSSION_GUIDE_PROMPT)
-    st.link_button(
-        "View in ChatGPT", DISCUSSION_GUIDE_URL, icon=":material/open_in_new:"
-    )
-
-
 def get_analysis_chain():
     """Initialize and return the LangChain chain for analyzing student responses."""
     if "analysis_chain" not in st.session_state:
@@ -247,23 +173,187 @@ def get_analysis_chain():
     return st.session_state.analysis_chain
 
 
-st.header("4. Summary and Analysis")
-st.subheader("Example")
-with st.chat_message("teacher", avatar="user"):
-    st.markdown(
-        """
-    analyze these samples and summarize
-    """
-    )
-with st.chat_message("assistant", avatar="assistant"):
-    st.markdown(DISCUSSION_GUIDE_PROMPT)
+# Instructions setup section
+st.header("1. Instructions and Assessment Criteria")
 
+# Display the instructions in a container
+with st.expander("Instructions", expanded=True):
+    st.markdown(DEFAULT_INSTRUCTIONS)
+
+# Store instructions in session state
+st.session_state.instructions = DEFAULT_INSTRUCTIONS
+
+# Process responses section
+if not st.session_state.get("instructions"):
+    st.stop()
+else:
+    st.header("2. Student Work Samples")
+
+    # Load default data
+    default_data_path = os.path.join("data", "feedback-sample.csv")
+    try:
+        df = pd.read_csv(default_data_path)
+
+        # Add data preview
+        with st.expander("Sample Student Responses", expanded=True):
+            st.dataframe(df, hide_index=True)
+
+    except Exception as e:
+        st.error(f"Error loading default data: {str(e)}")
+        st.stop()
+
+    if df is not None:
+        st.header("3. Summary and Analysis")
+DISCUSSION_GUIDE_PROMPT = """
+### Guide for Summative Review and Feedback Analysis
+
+This guide outlines how to systematically analyze and provide summative review and whole-group feedback for classroom tasks, focusing on identifying misconceptions and elevating student responses. The approach is broken into steps to ensure clarity and actionable feedback.
+
+---
+
+#### Step 1: **Identify Key Misconceptions**
+- Review student responses and identify patterns of misunderstanding. 
+  - Misconceptions may relate to facts, data interpretation, or application of concepts.
+  - **Example:** Students may think a road proposal impacts migration differently than data indicates.
+
+---
+
+#### Step 2: **Provide Targeted Feedback**
+**Feedback Structure:**
+1. **Clarify Misunderstandings**
+   - Use examples to correct the misconception.
+   - Relate feedback to evidence or concepts covered in class.
+   - **Example:** “The South Eyasi road does not pass through the park, making it a better ecological choice compared to the Serengeti road.”
+
+2. **Guide Improvement**
+   - Offer specific strategies for students to strengthen their responses.
+     - Compare alternatives: Discuss why one option is better than another.
+     - Include data: Encourage citing specific figures or references.
+     - Differentiate effects: Distinguish between short- and long-term impacts.
+
+3. **Encourage Deeper Analysis**
+   - Suggest using mathematical computations or comparisons.
+   - Encourage students to explain the significance of their data or quotes.
+
+---
+
+#### Step 3: **Incorporate Evidence-Based Reasoning**
+- Ask students to support claims with:
+  - Numerical data or computed results.
+  - Direct references to classroom activities or readings.
+  - Logical connections from models or scenarios.
+
+**Example:**
+- **Data Reference:** "The buffalo population decreased from 60 million to 300 between 1800 and 1900, which is almost a 100% decrease."
+- **Model Explanation:** "With bison present, there is more APC for plants because bison grazing creates space for new growth."
+
+---
+
+#### Step 4: **Address Specific Misconceptions**
+**Data Misconceptions:**
+- Emphasize interpreting graphs or trends correctly.
+- Practice citing numbers and doing calculations for precision.
+
+**Explanatory Misconceptions:**
+- Reinforce using models and identifying relationships.
+- Require logical steps connecting observations to conclusions.
+
+---
+
+#### Step 5: **Scaffold Feedback for Improvement**
+- Use a rubric or specific grading criteria to guide students.
+- Elevate answers by:
+  - Citing data or examples with clear explanations.
+  - Making connections between ecosystem components.
+  - Comparing scenarios or alternatives.
+
+**Example Feedback for Improvement:**
+- “Your response would benefit from comparing the two road proposals directly, highlighting ecological impacts supported by data.”
+
+---
+
+#### Step 6: **Use Reflective Prompts**
+Encourage students to ask themselves:
+- Have I cited specific evidence or data?
+- Did I explain why the evidence supports my claim?
+- Have I addressed short- and long-term impacts?
+
+---
+
+#### Step 7: **Evaluate Based on Feedback**
+- Provide detailed examples of what an exemplary response looks like.
+- Highlight progress and areas for growth.
+
+---
+
+By following this structured approach, teachers can effectively analyze and provide actionable feedback that fosters student understanding and improvement.
+"""
+DISCUSSION_GUIDE_URL = "https://chatgpt.com/share/68000e9d-12e0-8012-980f-97696ecded35"
+with st.container(border=True):
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.subheader("Example")
+    with col2:
+        st.link_button(
+            "View the original conversation in ChatGPT",
+            DISCUSSION_GUIDE_URL,
+            icon=":material/open_in_new:",
+        )
+    with st.chat_message("teacher", avatar="user"):
+        st.markdown("Here's an example prompt to generate a discussion guide")
+    with st.expander("Discussion guide instructions", expanded=False):
+        st.markdown(DISCUSSION_GUIDE_PROMPT)
+
+    with st.chat_message("teacher", avatar="user"):
+        st.markdown("analyze these samples and summarize")
+        st.write(":material/attachment:", " sample-data.csv")
+    with st.chat_message("assistant", avatar="assistant"):
+        st.markdown(
+            """
+        The provided dataset includes responses to two prompts about "zombie fires" and their environmental implications. Each entry contains student responses, assigned scores, feedback for improvement, and noted strengths. Here's a summary of the analysis:
+
+        ### Observations and Patterns:
+        1. **Prompt A: How Zombie Fires Burn Under Ice**
+        - Common strengths:
+            - Clear explanations of the role of peat formation and arctic conditions in sustaining fires.
+            - Some responses effectively link past arctic conditions with current phenomena.
+        - Common areas for improvement:
+            - A need for better organization and clarity in responses.
+            - Inclusion of more specific details or scientific concepts.
+
+        2. **Prompt B: Impact of Rising Temperatures**
+        - Common strengths:
+            - Use of predictive reasoning about environmental changes.
+            - Some students integrated zombie fires into their explanations effectively.
+        - Common areas for improvement:
+            - Responses often lack specific details or strong connections to the provided data.
+            - Some responses need better logical flow or deeper analysis.
+
+        3. **Scoring Trends:**
+        - Scores range from 0 to 4, with higher-scoring responses being more detailed and well-structured.
+        - Lower scores frequently correlate with disorganized responses or incomplete reasoning.
+
+        ### Recommendations for Improvement:
+        - Encourage students to:
+        - Use the provided sentence starters to structure their responses.
+        - Integrate specific evidence or examples to support claims.
+        - Clearly articulate the connection between cause and effect in their explanations.
+
+        - Provide examples of high-scoring responses to illustrate expectations.
+        - Focus on scaffolding support for lower-performing students, particularly on organizing ideas and incorporating details.
+
+        This analysis highlights areas where students excel and where additional guidance can elevate their performance. Let me know if you'd like further breakdowns or visualizations of the data!
+        """
+        )
+
+
+st.header("4. Try it out!")
 # Initialize messages in session state if not present
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {
             "role": "assistant",
-            "content": "Ask me questions about the student responses! For example:\n- What common misconceptions do students have?\n- How many students mentioned photosynthesis?\n- What's the average response length?",
+            "content": "Ask me questions about the above student response data! For example:\n- What common misconceptions do students have?\n- Show me some examples of high-scoring responses.\n - What activities could be used to improve student understanding?",
         }
     ]
 
@@ -292,6 +382,7 @@ if prompt := st.chat_input("Ask a question about the student responses"):
                             {
                                 "dataset": df,
                                 "question": prompt,
+                                "messages": st.session_state.messages,
                             }
                         )
                     )
