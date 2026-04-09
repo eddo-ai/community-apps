@@ -10,6 +10,9 @@ st.set_page_config(
 home_page = st.Page("home.py", title="Home", icon="🏠", default=True)
 apps = [
     st.Page("apps/analyze_student_work.py", title="Analyze Student Work", icon="📝"),
+    st.Page("apps/assessment_feedback.py", title="Assessment Feedback", icon="📋"),
+    st.Page("apps/transcribe_images.py", title="Transcribe Images", icon="🖼️"),
+    st.Page("apps/generate_feedback_demo.py", title="Feedback Demo", icon="🎯"),
 ]
 
 
