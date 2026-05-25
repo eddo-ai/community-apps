@@ -401,3 +401,10 @@ if prompt := st.chat_input("Ask a question about the student responses"):
 
             except Exception as e:
                 st.error(f"Error analyzing responses: {str(e)}")
+
+with st.sidebar:
+    st.link_button(
+        "See the full recap",
+        "https://eddolearning.com/analyzing-student-work/",
+        icon=":material/open_in_new:",
+    )
